@@ -1,4 +1,4 @@
-import Header from "../../assets/components/header";
+import Header from "../../components/header";
 
 export const Painel = () => {
   return (

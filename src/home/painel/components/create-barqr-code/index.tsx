@@ -1,13 +1,9 @@
 import { useState } from "react";
-import api from "../../../../server/api";
+import { createLabel } from "../../../../server/label";
+import { formData, type LabelData } from "./interface";
 
-export default function LabelForm() {
-  const [form, setForm] = useState({
-    prefix: "",
-    start: "",
-    end: "",
-    type: "both",
-  });
+export default function CreateBarcodeQrCode() {
+  const [form, setForm] = useState<LabelData>(formData);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -24,27 +20,18 @@ export default function LabelForm() {
     setMessage("");
 
     try {
-      const response = await api.post(
-        "/labels",
-        {
-          prefix: form.prefix,
-          start: Number(form.start),
-          end: Number(form.end),
-          type: form.type,
-        },
-        {
-          responseType: "blob", // importante para receber PDF
-          timeout: 30000,
-        }
-      );
+      const response = await createLabel({
+        ...form,
+        start: Number(form.start),
+        end: Number(form.end),
+      });
 
       // Cria um Blob e abre em nova aba
-      const file = new Blob([response.data], { type: "application/pdf" });
+      const file = new Blob([response], { type: "application/pdf" });
       const fileURL = URL.createObjectURL(file);
       window.open(fileURL);
 
       setMessage("✅ Etiquetas geradas com sucesso!");
-      //   setTimeout(() => setMessage(""), 5000);
       setForm({ prefix: "", start: "", end: "", type: "both" });
     } catch (err) {
       setMessage("Falha ao gerar o PDF");

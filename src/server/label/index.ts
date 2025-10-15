@@ -9,7 +9,10 @@ export interface LabelData {
 
 export const createLabel = async (data: LabelData) => {
   try {
-    const response = await api.post("/labels", data); // envia diretamente o JSON
+    const response = await api.post("/labels", data, {
+      responseType: "blob",
+      timeout: 30000,
+    });
     return response.data;
   } catch (error) {
     console.error("Erro ao criar etiqueta:", error);

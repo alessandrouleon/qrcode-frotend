@@ -1,12 +1,12 @@
 import { BrowserRouter } from "react-router";
-import LabelForm from "./home/painel/components/create-barcode-qrcode";
+import CreateBarcodeQrCode from "./home/painel/components/create-barqr-code";
 import { AppRoutes } from "./routes";
 
 function App() {
   return (
     <BrowserRouter>
       <AppRoutes />
-      <LabelForm />
+      <CreateBarcodeQrCode />
     </BrowserRouter>
   );
 }
